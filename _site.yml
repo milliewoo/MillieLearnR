@@ -4,8 +4,10 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Journal"
-      href: Journal.html
-    - text: "Links"
-      href: Links.html
+    - text: "Normal Distribution"
+      href: Normal.html
+    - text: "Paired T-test"
+      href: T-test.html
+    - text: "Regression"
+      href: Regression.html
 output_dir: "docs"

@@ -1,0 +1,223 @@
+---
+title: "MATH1324 Assignment 3"
+author: "Dilanka Wijeratne (s3808496); Rangani Uthpala Iddagoda Hevage (s3757404); Millie Woo (s3806940)"
+date: "Last updated: `r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+subtitle: Bike Rental Investigation
+---
+
+```{r setup, include=FALSE}
+# Use this chunk to quietly load your pacakges
+
+knitr::opts_chunk$set(
+	fig.align = "center",
+	message = FALSE,
+	warning = FALSE
+)
+# Packages loaded in this chunk will not appear in the presentation. 
+
+library(ggplot2) # Useful for creating plots
+library(dplyr)  # Useful for data maipulation
+library(knitr)# Useful for creating nice tables
+library(readr)
+library(MVN)
+
+```
+
+
+# RPubs link information
+
+- You must publish your presentation to RPubs (see [here](https://astral-theory-157510.appspot.com/secured/RBootcamp_Course_04.html#creating_an_r_markdown_document_in_r_studio)) and add this link to your presentation here.
+
+- Rpubs link comes here: www.........
+
+- This online version of the presentation will be used for marking. Failure to add your link will delay your feedback and risk late penalties.
+
+# Introduction
+
+Bike sharing programs are high in demand these days. The benefits of bike sharing include reducing pollution, traffic, travel costs and dependence on oil, while improving public health. This study is intended to understand how environmental factors such as temperature promote or hinder public bike sharing. 
+
+# Problem Statement
+
+The goal is to determine whether bike renting is affected by outside temperature. A simple linear regression model is the type of model that best describes the relationship between temperature and number of rented bikes. 
+
+# Data 1
+
+The dataset (day.csv) was obtained from UCI Machine Learning Repository. 
+The URL for the dataset is as follows:
+https://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset
+The variables in the dataset are as follows:
+
+- instant: record index 
+- dteday : date
+- season : season (1:springer, 2:summer, 3:fall, 4:winter)
+- yr : year (0: 2011, 1:2012)
+- mnth : month ( 1 to 12)
+- holiday : weather day is holiday or not (extracted from http://dchr.dc.gov/page/holiday-schedule)
+- weekday : day of the week
+- workingday : if day is neither weekend nor holiday is 1, otherwise is 0
+- weathersit  : season (1: Clear, Few clouds, Partly cloudy, Partly cloudy, 2: Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist, 3: Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds, 4: Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog)
+
+
+
+# Data 2
+- temp : Normalized temperature in Celsius. The values are derived via (t-t_min)/(t_max-t_min), t_min=-8, t_max=+39 (only in hourly scale)
+- atemp : Normalized feeling temperature in Celsius. The values are derived via (t-t_min)/(t_max-t_min), t_min=-16, t_max=+50 (only in hourly scale)
+- hum : Normalized humidity. The values are divided to 100 (max)
+- windspeed : Normalized wind speed. The values are divided to 67 (max)
+- casual : count of casual users
+- registered : count of registered users
+- cnt : count of rental bikes including casual and registered
+
+The variables we are dealing with are temp and cnt.
+
+# Descriptive Statistics and Visualisation 1
+
+- Read the data
+
+```{r}
+#Read the data
+day <- read_csv("src/day.csv")
+head(day)
+
+#Summary statistics
+day %>% summarise( Var = "Temperature", Min = min(temp,na.rm = TRUE)%>% round(3),
+                                           Q1 = quantile(temp,probs = .25,na.rm = TRUE)%>% round(3),
+                                           Median = median(temp, na.rm = TRUE)%>% round(3),
+                                           Q3 = quantile(temp,probs = .75,na.rm = TRUE)%>% round(3),
+                                           Max = max(temp,na.rm = TRUE)%>% round(3),
+                                           Mean = mean(temp, na.rm = TRUE)%>% round(3),
+                                           SD = sd(temp, na.rm = TRUE)%>% round(3),
+                                           n = n(),
+                                           Missing = sum(is.na(temp))) -> table1
+
+day %>% summarise( Var = "Count of Bike Rentals", Min = min(cnt,na.rm = TRUE),
+                                           Q1 = quantile(cnt,probs = .25,na.rm = TRUE),
+                                           Median = median(cnt, na.rm = TRUE),
+                                           Q3 = quantile(cnt,probs = .75,na.rm = TRUE),
+                                           Max = max(cnt,na.rm = TRUE),
+                                           Mean = mean(cnt, na.rm = TRUE),
+                                           SD = sd(cnt, na.rm = TRUE),
+                                           n = n(),
+                                           Missing = sum(is.na(cnt))) -> table2
+knitr::kable(rbind(table1,table2))
+```
+There are no missing values in the variables temperature and count of rental bikes.
+
+# Outliers
+
+The mvn() function can be used to detect multivariate outliers of the variables.
+
+```{r}
+daytempcnt <- day[,c("temp","cnt")]
+results <- mvn(data = daytempcnt, multivariateOutlierMethod = "quan", showOutliers = TRUE,showNewData = TRUE)
+results$multivariateOutliers
+daytempcntdata <-results$newData
+```
+There are 3 outliers in the dataset. We will be removing the 3 outliers and use the rest of the dataset for the analysis.
+
+
+# Decsriptive Statistics and Visualisation 2
+```{r}
+plot(cnt~temp, data = daytempcntdata,ylab="No.of Bike Rentals", xlab="Temperature", main="Bike Rentals by Temperature")
+```
+The scatter plot shows that the two variables have some linearity.
+A simple linear regression was performed on the two variables without the outliers.
+
+
+# Simple Linear Regression Assumption 1
+- Residual vs Fitted
+
+```{r}
+model1 <- lm(cnt ~ temp, data = daytempcntdata)
+plot(model1,which = 1)
+```
+The relationship between fitted values and residuals is flat (look at the red line), this is a good indication that the relationship between temperature and number of bikes rented is linear.  In the plot above, the variance appears to remain the same.  Therefore,we can assume homoscedasticity.
+
+# Simple Linear Regression Assumption 2
+- Normal Q-Q
+
+```{r}
+plot(model1,which = 2)
+```
+The above plot suggests that there is no significant deviation from normality.  It would be safe to assume that the residuals are approximately distributed normally.
+
+# Simple Linear Regression Assumption 3
+- Scale-Location
+
+```{r}
+plot(model1,which = 3)
+```
+The red line is nearly flat and the variance in the square root of the standardised residuals is consistent across predicted (fitted values).
+
+# Simple Linear Regression Assumption 4
+- Residual vs Leverage
+
+```{r}
+plot(model1,which = 5)
+```
+The above plot shows that there are no evidence of influencial cases.
+
+# Simple Linear Regression Summary
+
+```{r}
+model1 %>% summary()
+```
+The $R^2$ for the above regression suggests that normalised temperature explains 39% of the variabiltiy in number of bikes rented. 
+
+
+# Hypthesis Testing 1
+
+The model summary also recorded a F statistic which is used to assess the regression model.
+F-test has statistical hypotheses as follows:
+
+$$H_0: The \ data \ do \ not \ fit \ the \ linear \ regression \ model $$
+
+$$H_A: The \ data \ fit \ the \ linear \ regression \ model$$
+The p-value for the F-Test reported in the model summary is <.001. Therefore,we reject $H_{0}$.There was statistically significant evidence that the data fit a linear regression model.
+
+# Hypthesis Testing 2
+
+We set the following statistical hypotheses to check the statistical significance of the intercept:
+
+$$H_0: \alpha=0\ $$
+$$H_A: \alpha\ne0\ $$
+This hypothesis is tested using a t statistic, reported as t=7.722,p < .001.  The intercept is statistically significant at the 0.05 level.  This means statistically significant evidence exists that the intercept is not 0.
+
+```{r}
+
+model1 %>% confint()
+
+```
+$H_0: \alpha=0\ $ was not captured by the confidence interval. Therefore, we reject it.
+
+# Hypthesis Testing 3
+
+The hypothesis test of the slope is as follows:
+
+$$H_0: \beta=0\ $$
+
+$$H_A: \beta\ne0\ $$
+The slope was also tested using a t statistic which was reported as t=21.611,p < .001. As p<0.05, we reject $H_0$. Looking at the confint() function, the 95% confidence interval does not capture 0. Therefore, we reject $H_0$.
+There is statistically significant evidence that temperature is positively related to number of bikes rented.
+
+# Simple Linear Regression
+
+```{r}
+plot(cnt~temp, data = daytempcntdata)
+abline(model1,col="red")
+```
+A linear regression model was fitted with a single predictor,temperature, to estimate the dependent variable,count of bikes rented.  A scatter plot testing the bivariate relationship between temperature and count was examined before fitting the regression.  A positive linear relationship was shown by the scatter plot.  Other non-linear trends were omitted. The overall regression model was statistically significant, F(1,726)=426, p< .001, and explained 39% of the variability in count of bikes, $R^2$=.39.  The estimated regression equation was cnt=1246.2+.6595.2∗temp. The positive slope for temperature was statistically significant, b=6595.2, t=21.611, p<.001, 95% CI [5996.0335,7194.287].  Final inspection of the residuals supported normality and homoscedasticity. 
+
+# Discussion
+The positive linear relationship between temperature and bike rental count shows that higher the temperature, higher the bike rental count. The warm weather promotes the use of public bikes.
+
+It would be very interesting, if we could extend our research to other factors, such as humidity and windspeed and explore if these factors could also impose any inference on bike rental.   We could also investigate if there is any difference in weather influence on bike rental in different metropolitan cities and make statistical comparisons.  The research question can roll on extensively base on the above preliminary findings.
+
+# References
+
+Original Source: http://capitalbikeshare.com/system-data
+
+Weather Information: http://www.freemeteo.com
+
+Holiday Schedule: http://dchr.dc.gov/page/holiday-schedule
