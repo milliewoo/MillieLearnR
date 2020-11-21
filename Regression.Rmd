@@ -1,6 +1,6 @@
 ---
 title: "MATH1324 Assignment 3"
-author: "Dilanka Wijeratne (s3808496); Rangani Uthpala Iddagoda Hevage (s3757404); Millie Woo (s3806940)"
+author: "Millie Woo (s3806940)"
 date: "Last updated: `r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 subtitle: Bike Rental Investigation

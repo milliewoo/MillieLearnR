@@ -33,9 +33,9 @@ This site stores all the work coded with R.
 </div>
 <div class="col-sm-6">
 
-### [Crump Lab: Human Cognition and Performance](https://crumplab.github.io)
+### [Projects](https://milliewoo.github.io/MillieLearnR/index.html)
 
-<a href = "https://crumplab.github.io">
-![](images/logo.png)
+<a href = "https://milliewoo.github.io">
+![](images/document.jpg)
 </a>
 </div>

@@ -21,7 +21,15 @@ The body girth and skeletal diameter measurements, together with age, weight, he
   
 ## Load Packages
 
-```{r}
+```{r setup, include=FALSE}
+# Use this chunk to quietly load your pacakges
+
+knitr::opts_chunk$set(
+	fig.align = "center",
+	message = FALSE,
+	warning = FALSE
+)
+# Packages loaded in this chunk will not appear in the presentation. 
 # Packages required to reproduce the report
 library(magrittr)
 library(readr)

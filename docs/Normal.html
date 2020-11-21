@@ -334,29 +334,6 @@ $(document).ready(function () {
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load Packages</h2>
-<pre class="r"><code># Packages required to reproduce the report
-library(magrittr)</code></pre>
-<pre><code>## Warning: package &#39;magrittr&#39; was built under R version 3.6.3</code></pre>
-<pre class="r"><code>library(readr)</code></pre>
-<pre><code>## Warning: package &#39;readr&#39; was built under R version 3.6.3</code></pre>
-<pre class="r"><code>library(knitr)</code></pre>
-<pre><code>## Warning: package &#39;knitr&#39; was built under R version 3.6.3</code></pre>
-<pre class="r"><code>library(summarytools)</code></pre>
-<pre><code>## Warning: package &#39;summarytools&#39; was built under R version 3.6.3</code></pre>
-<pre><code>## Registered S3 method overwritten by &#39;pryr&#39;:
-##   method      from
-##   print.bytes Rcpp</code></pre>
-<pre><code>## For best results, restart R session and update pander using devtools:: or remotes::install_github(&#39;rapporter/pander&#39;)</code></pre>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.6.3</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
@@ -503,7 +480,7 @@ lines(xffit, yffit, col=&quot;blue&quot;, lwd=2)
 # Step 6: Normal distribution, should be 68% lies between mean ± standard deviation and 95% lies between mean±2 * standard deviation; draw vertical lines (purple - 68%, red - 95%) to indicate that.
 abline(v=(cgFNOMean - (2 *cgFNOSD))  ,col=&quot;red&quot;) ; abline(v=(cgFNOMean + (2 *cgFNOSD)),col=&quot;red&quot;); abline(v=(cgFNOMean - cgFNOSD)  ,col=&quot;purple&quot;) ;abline(v=(cgFNOMean + cgFNOSD),col=&quot;purple&quot;)
 arrows(80.156, 23, 91.156, 23, col = &quot;purple&quot;);arrows(74.656, 27, 96.656, 27, col = &quot;red&quot;);text(85, 25, bquote(~mu %+-% ~sigma), col=&quot;purple&quot;);text(85, 29, bquote(~mu %+-% 2~sigma), col=&quot;red&quot;)</code></pre>
-<p><img src="Normal_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="Normal_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#Repeat Step 1 - 6 for Male filtered data set
 hm &lt;- mNoO$che.gi %&gt;% hist(col=&quot;grey&quot;,xlab=&quot;Chest Girth (cm)&quot;, main= &quot;Histogram of Male Chest Girth overlay with\n normal distribution curve&quot;, breaks=25, xlim= c(80, 125),ylim = c(0, 20), cex.main = 0.8)
 xmfit&lt;-seq(cgMNOMin,cgMNOMax,length=40)
@@ -512,7 +489,7 @@ ymfit &lt;- ymfit*diff(hm$mids[1:2])*length(mNoO$che.gi)
 lines(xmfit, ymfit, col=&quot;blue&quot;, lwd=2)
 abline(v=(cgMNOMean - (2 *cgMNOSD))  ,col=&quot;red&quot;) ; abline(v=(cgMNOMean + (2 *cgMNOSD)),col=&quot;red&quot;); abline(v=(cgMNOMean - cgMNOSD)  ,col=&quot;purple&quot;) ;abline(v=(cgMNOMean + cgMNOSD),col=&quot;purple&quot;)
 arrows(93.989,13,108.167, 13, col = &quot;purple&quot;);arrows(86.9, 17, 115.256, 17, col = &quot;red&quot;);text(101, 15, bquote(~mu %+-% ~sigma), col=&quot;purple&quot;);text(101, 19, bquote(~mu %+-% 2~sigma), col=&quot;red&quot;)</code></pre>
-<p><img src="Normal_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="Normal_files/figure-html/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#1.  Compare the count of participants lie between mean ± standard deviation (i.e. Between Purple lines of the graphs shown in the above graph); and for those lies between mean±2 * standard deviation (i.e. Between Red line of the graphs shown in the above graph) with the 68-95-99.7 Characteristics in normal distribution.   Summarise all the count in a table.
 fNOPur &lt;- filter(fNoO, fNoO$che.gi &gt; (cgFNOMean - cgFNOSD) &amp; fNoO$che.gi &lt; (cgFNOMean + cgFNOSD)); fNOPurCount &lt;- length(fNOPur$che.gi)
 fNORed &lt;- filter(fNoO, fNoO$che.gi &gt; (cgFNOMean - 2 * cgFNOSD) &amp; fNoO$che.gi &lt; (cgFNOMean + 2 *cgFNOSD)) ;fNORedCount &lt;- length(fNORed$che.gi)
@@ -562,13 +539,11 @@ kable(newdf, caption = &quot;Table 4 - Count (#) of participants of Chest girth&
 </table>
 <pre class="r"><code>#2. Compare the data set with normal distribution using QQ Plot
 qqnorm(fNoO$che.gi, main=&quot;Normal QQ plot for female Chest girth&quot;); qqline(fNoO$che.gi, col=&#39;red&#39;)</code></pre>
-<p><img src="Normal_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+<p><img src="Normal_files/figure-html/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>qqnorm(mNoO$che.gi, main=&quot;Normal QQ plot for male Chest girth&quot;); qqline(mNoO$che.gi, col=&#39;red&#39;)</code></pre>
-<p><img src="Normal_files/figure-html/unnamed-chunk-4-4.png" width="672" /></p>
+<p><img src="Normal_files/figure-html/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>#3. Apply Kolmogorov Smirnov test 
 ks.test(fNoO$che.gi, &quot;pnorm&quot;, cgFNOMean, cgFNOSD)</code></pre>
-<pre><code>## Warning in ks.test(fNoO$che.gi, &quot;pnorm&quot;, cgFNOMean, cgFNOSD): ties should not be
-## present for the Kolmogorov-Smirnov test</code></pre>
 <pre><code>## 
 ##  One-sample Kolmogorov-Smirnov test
 ## 
@@ -576,8 +551,6 @@ ks.test(fNoO$che.gi, &quot;pnorm&quot;, cgFNOMean, cgFNOSD)</code></pre>
 ## D = 0.046863, p-value = 0.63
 ## alternative hypothesis: two-sided</code></pre>
 <pre class="r"><code>ks.test(mNoO$che.gi, &quot;pnorm&quot;, cgMNOMean, cgMNOSD)</code></pre>
-<pre><code>## Warning in ks.test(mNoO$che.gi, &quot;pnorm&quot;, cgMNOMean, cgMNOSD): ties should not be
-## present for the Kolmogorov-Smirnov test</code></pre>
 <pre><code>## 
 ##  One-sample Kolmogorov-Smirnov test
 ## 
