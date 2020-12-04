@@ -1,0 +1,42 @@
+---
+title: "Millie's Test"
+output: html_document
+---
+
+<style type="text/css">
+.title {
+  display: none;
+}
+
+#getting-started img {
+  margin-right: 10px;
+}
+
+</style>
+
+<div class="row" style="padding-top: 30px;">
+<div class="col-sm-6">
+
+# **R Repository**
+
+This site stores all the work coded with R.
+
+## Table of content
+
+1. [Normal Distribution](https://milliewoo.github.io/MillieLearnR/Normal.html)
+
+2. [Pair T-test](https://milliewoo.github.io/MillieLearnR/T-test.html)
+
+3. [Regression](https://milliewoo.github.io/MillieLearnR/Regression.html)
+
+
+</div>
+<div class="col-sm-6">
+
+### [Projects](https://milliewoo.github.io/MillieLearnR/index.html)
+
+
+<a href = "https://milliewoo.github.io">
+![](images/document.jpg)
+</a>
+</div>

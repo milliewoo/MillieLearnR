@@ -1,0 +1,18 @@
+---
+title: "Intro"
+subtitle: Intro 
+output: html_document
+---
+<style type="text/css">
+.title {
+  display: none;
+}
+
+## Normal
+Normal Distribution
+
+## Paired t-test
+Doing paired t-test
+
+## Regression
+Doing Regression

@@ -1,13 +1,24 @@
 name: "Millie's Site"
 navbar:
-  title: "Millie's R Site"
+  title: "Millie's site"
+  type: inverse
   left:
     - text: "Home"
+      icon: fa-home
       href: index.html
-    - text: "Normal Distribution"
-      href: Normal.html
-    - text: "Paired T-test"
-      href: T-test.html
-    - text: "Regression"
-      href: Regression.html
-output_dir: "docs"
+    - text: "About"
+      icon: fa-info
+      href: about.html
+    - text: "More"
+      icon: fa-gear
+      menu:
+        - text: "Heading 1"
+        - text: "Page B"
+          href: T-test.html
+        - text: "---------"
+        - text: "Heading 2"
+        - text: "Page C"
+          href: Regression.html
+  right:
+    - icon: fa-question fa-lg
+      href: https://example.com

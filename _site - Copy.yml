@@ -1,0 +1,13 @@
+name: "Millie's Site"
+navbar:
+  title: "Millie's R Site"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Normal Distribution"
+      href: Normal.html
+    - text: "Paired T-test"
+      href: T-test.html
+    - text: "Regression"
+      href: Regression.html
+output_dir: "docs"
