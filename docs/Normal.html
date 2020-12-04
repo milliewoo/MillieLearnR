@@ -24,6 +24,8 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -270,7 +272,7 @@ $(document).ready(function () {
 
 
 
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -278,25 +280,52 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Millie's R Site</a>
+      <a class="navbar-brand" href="index.html">Millie's site</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
 </li>
 <li>
-  <a href="Normal.html">Normal Distribution</a>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About
+  </a>
 </li>
-<li>
-  <a href="T-test.html">Paired T-test</a>
-</li>
-<li>
-  <a href="Regression.html">Regression</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    More
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Heading 1</li>
+    <li>
+      <a href="T-test.html">Page B</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Heading 2</li>
+    <li>
+      <a href="Regression.html">Page C</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://example.com">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -356,7 +385,7 @@ kable(descr(m$che.gi, stats = c(&quot;mean&quot;, &quot;med&quot;, &quot;sd&quot
 <caption>Table 1 - statistics of chest girth for male</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Mean</th>
 <th align="right">Median</th>
 <th align="right">Std.Dev</th>
@@ -369,7 +398,7 @@ kable(descr(m$che.gi, stats = c(&quot;mean&quot;, &quot;med&quot;, &quot;sd&quot
 </thead>
 <tbody>
 <tr class="odd">
-<td>value</td>
+<td align="left">value</td>
 <td align="right">100.9899</td>
 <td align="right">101</td>
 <td align="right">7.209018</td>
@@ -386,7 +415,7 @@ kable(descr(m$che.gi, stats = c(&quot;mean&quot;, &quot;med&quot;, &quot;sd&quot
 <caption>Table 2 - statistics of chest girth for female</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Mean</th>
 <th align="right">Median</th>
 <th align="right">Std.Dev</th>
@@ -399,7 +428,7 @@ kable(descr(m$che.gi, stats = c(&quot;mean&quot;, &quot;med&quot;, &quot;sd&quot
 </thead>
 <tbody>
 <tr class="odd">
-<td>value</td>
+<td align="left">value</td>
 <td align="right">86.06</td>
 <td align="right">85.5</td>
 <td align="right">6.170406</td>
@@ -432,7 +461,7 @@ kable(df, caption = &quot;Table 3 - Min, Max, SD and Mean of Chest girth after r
 <caption>Table 3 - Min, Max, SD and Mean of Chest girth after removing the outliners</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Min</th>
 <th align="right">Max</th>
 <th align="right">Mean</th>
@@ -441,14 +470,14 @@ kable(df, caption = &quot;Table 3 - Min, Max, SD and Mean of Chest girth after r
 </thead>
 <tbody>
 <tr class="odd">
-<td>Female</td>
+<td align="left">Female</td>
 <td align="right">72.6</td>
 <td align="right">99.5</td>
 <td align="right">85.656</td>
 <td align="right">5.500</td>
 </tr>
 <tr class="even">
-<td>Male</td>
+<td align="left">Male</td>
 <td align="right">84.5</td>
 <td align="right">118.7</td>
 <td align="right">101.078</td>
@@ -500,11 +529,21 @@ newdf &lt;- data.frame(matrix(ncol = 7, nrow = 2))
 colnames(newdf) &lt;- c(&quot;# in original data&quot;,  &quot;# without outliners&quot;, &quot;outliners #&quot;, &quot;# without outliners (68%)&quot;, &quot;# without outliners (95%)&quot;, &quot;# within Purple&quot;, &quot;# within Red&quot;); rownames(newdf) &lt;- c(&quot;Female&quot;, &quot;Male&quot;); newdf$`# in original data` &lt;- c(length(f$che.gi), length(m$che.gi));newdf$`# without outliners` &lt;- c(length(fNoO$che.gi), length(mNoO$che.gi));newdf$`outliners #`&lt;- c(length(f$che.gi)-length(fNoO$che.gi), length(m$che.gi)-length(mNoO$che.gi));newdf$`# without outliners (68%)`&lt;- c(round(0.68*length(fNoO$che.gi),0),round(0.68*length(mNoO$che.gi),0));newdf$`# without outliners (95%)` &lt;- c(round(0.95*length(fNoO$che.gi),0),round(0.95*length(mNoO$che.gi),0));newdf$`# within Purple` &lt;- c(fNOPurCount, mNOPurCount); newdf$`# within Red`&lt;- c(fNORedCount, mNORedCount); 
 
 kable(newdf, caption = &quot;Table 4 - Count (#) of participants of Chest girth&quot;)</code></pre>
-<table>
+<table style="width:100%;">
 <caption>Table 4 - Count (#) of participants of Chest girth</caption>
+<colgroup>
+<col width="5%" />
+<col width="13%" />
+<col width="14%" />
+<col width="8%" />
+<col width="18%" />
+<col width="18%" />
+<col width="11%" />
+<col width="9%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right"># in original data</th>
 <th align="right"># without outliners</th>
 <th align="right">outliners #</th>
@@ -516,7 +555,7 @@ kable(newdf, caption = &quot;Table 4 - Count (#) of participants of Chest girth&
 </thead>
 <tbody>
 <tr class="odd">
-<td>Female</td>
+<td align="left">Female</td>
 <td align="right">260</td>
 <td align="right">255</td>
 <td align="right">5</td>
@@ -526,7 +565,7 @@ kable(newdf, caption = &quot;Table 4 - Count (#) of participants of Chest girth&
 <td align="right">239</td>
 </tr>
 <tr class="even">
-<td>Male</td>
+<td align="left">Male</td>
 <td align="right">247</td>
 <td align="right">246</td>
 <td align="right">1</td>
